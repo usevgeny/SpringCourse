@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/199/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>List of subscribers</title>
+</head>
+<body>
+<h1>Subscribers:</h1>
+
+<div th:each="subscriber: ${subscribers}">
+
+ <a th:href="@{/subscribers/{id}(id=${subscriber.getId()})}" th:text="${subscriber.getFullName()}">user</a>
+ <span th:text="${subscriber.getBirthDate()}">Birth date</span>
+</div>
+
+
+</body>
+</html>
