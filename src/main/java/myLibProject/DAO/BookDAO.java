@@ -48,7 +48,7 @@ public class BookDAO {
 	
 	public void save(Book book) {
 		
-		jdbcTeplate.update("INSERT INTO book(title=?, author=?, year=?)", book.getTitle(), book.getAuthor(), book.getYear());
+		jdbcTeplate.update("INSERT INTO book(title,author,year) values(?,?,?)", book.getTitle(), book.getAuthor(), book.getYear());
 		
 		
 	}
@@ -71,14 +71,15 @@ public class BookDAO {
 	
 	public void delete(int id) {
 		
-		jdbcTeplate.update("DELETE book WHERE id=?");
+		jdbcTeplate.update("DELETE FROM book WHERE id=?", id);
 		
 		
 	}
 
 
-	public void bookAssignTo(Book book, int personId) {
-		jdbcTeplate.update("UPDATE book SET personId=? WHERE id=?", book.getId(), personId);
+	public void bookAssignTo(int bookId, int personId) {
+
+		jdbcTeplate.update("UPDATE book SET personId=? WHERE id=?", personId, bookId);
 		
 	}
 	

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/199/xhtml">
 <head>
 <meta charset="UTF-8">
-<title>List of subscribers</title>
+<title>Create person</title>
 
 <style>
 * {
@@ -73,7 +73,7 @@ table.customTab, table.customTab tr, table.customTab th, table.customTab td
 	{
 	border-collapse: collapse;
 	border: 1px solid black;
-	margin:1px, 1px;
+	margin: 1px, 1px;
 }
 
 table.customTab tr:nth-child(odd) {
@@ -93,51 +93,34 @@ table.customTab tr:nth-child(odd) {
 		<div class="container">
 
 
-			<h1 th:text="${book.getTitle()}">Book Title</h1>
-			<h3><a href="/">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a href="/subscribers">Subscribers</a></h3>
+			<h1>Create Person</h1>
+			<h3>
+				<a href="/">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a
+					href="/subscribers">Subscribers</a>
+			</h3>
 
 
-			<table class="customTab">
-				<tr>
 
-					<th>Author</th>
-					<th>Year</th>
-					<th>Edit</th>
-					<th>Status</th>
-					<th>Assignment</th>
-				</tr>
-				<tr>
-					<td><span th:text="${book.getAuthor()}">Book Author</span></td>
-					<td><span th:text="${book.getYear()}">Book Year</span></td>
-					<td><a th:href="@{/books/{id}/edit(id=${book.getId()})}">  <input type="button" value="edit" /></a></td>
-					
-					
-					
-					<td
-						th:text="${book.getPersonId()} ? ${subscriber.getFullName()}: 'This book is free'"></td>
-					<td>
+			<form th:method="POST"
+				th:action="@{/subscribers}"
+				th:object="${person}">
+				<label for="fullName">Enter FULL NAME: </label> <input type="text"
+					th:field="*{fullName}" id="fullName" />
+				<div style="color: red" th:if="${#fields.hasErrors('fullName')}"
+					th:errors="*{fullName}">Title Error</div>
+				<br /> <label for="birthDate">Enter BirthDate
+					(yyyy-MM-dd)): </label> <input type="date" th:field="*{birthDate}"
+					id="birthDate" />
+				<div style="color: red" th:if="${#fields.hasErrors('birthDate')}"
+					th:errors="*{birthDate}">BirthDate Error</div>
 
-						<form th:if="${book.getPersonId()!=null}" th:method="PATCH"
-							th:action="@{/books/{id}/unassign(id=${book.getId()})}"
-							th:object="${book}">
-							<input type="submit" value="Unassign" />
-						</form>
+				<br /> <br /> <input type="submit" value="Save" />
 
-	
 
-						<form th:method="PATCH" th:unless="${book.getPersonId()!=null}" th:action="@{/books/{id}/assign(id=${book.getId()})}">
-							 <select th:object="${person}" th:field="*{id}" id="person">
+			</form>
+			<br />
 
-								<option th:each="person: ${subscribers}" th:value="${person.getId()}"
-									th:text="${person.getFullName()}"></option>
 
-							</select> <input type="submit" value="Assign the book" />
-
-						</form>
-
-					</td>
-				</tr>
-			</table>
 
 
 

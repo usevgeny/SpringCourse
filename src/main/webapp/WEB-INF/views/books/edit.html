@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/199/xhtml">
 <head>
 <meta charset="UTF-8">
-<title>List of subscribers</title>
+<title>Edit book</title>
 
 <style>
 * {
@@ -95,7 +95,7 @@ table.customTab tr:nth-child(odd) {
 
 			<h1 th:text="${book.getTitle()}">Book Title</h1>
 			<h3>
-				<a href="#">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a
+				<a href="/">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a
 					href="/subscribers">Subscribers</a>
 			</h3>
 
@@ -119,7 +119,14 @@ table.customTab tr:nth-child(odd) {
 				<br /> <br /> <input type="submit" value="update" />
 				
 
+			</form>			
+			<form th:method="DELETE"
+				th:action="@{/books/{id}(id=${book.getId()})}">
+
+				<input type="submit" value="Delete" />
+
 			</form>
+			
 
 
 

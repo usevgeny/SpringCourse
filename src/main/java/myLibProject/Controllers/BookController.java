@@ -6,10 +6,12 @@ import javax.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -70,6 +72,25 @@ public class BookController {
 	}
 
 	
+	
+	@GetMapping("/new")
+	public String newBook(@ModelAttribute("book")Book book) {
+
+		return "/books/new";
+	}
+	
+	@PostMapping()
+	public String create(@ModelAttribute("book")@Valid Book book, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			return "redirect:/books/new";
+		}
+		System.out.println(book.getYear());
+		bookDao.save(book);
+		return "redirect:/books";
+	}
+	
 	@PatchMapping("/{id}/update")
 	public String update(@PathVariable("id") int id, @ModelAttribute("book") Book updatedBook) {
 
@@ -89,7 +110,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/{id}/assign")
-	public String unassign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
+	public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
 		
 		if(bookDao.show(id)==null) {
 			return "redirect:/books";
@@ -98,10 +119,19 @@ public class BookController {
 			return "redirect:/books";
 		}
 		
-		bookDao.bookAssignTo(bookDao.show(id), person.getId());
+		bookDao.bookAssignTo(id, person.getId());
 		
 
 		return "redirect:/books/{id}";
+	}
+	
+	
+	@DeleteMapping("/{id}")
+	public String delete(@PathVariable("id") int id) {
+		
+		bookDao.delete(id);
+	
+		return "redirect:/books";
 	}
 
 }

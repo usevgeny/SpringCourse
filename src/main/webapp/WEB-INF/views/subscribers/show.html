@@ -73,7 +73,7 @@ table.customTab, table.customTab tr, table.customTab th, table.customTab td
 	{
 	border-collapse: collapse;
 	border: 1px solid black;
-	margin:1px, 1px;
+	margin: 1px, 1px;
 }
 
 table.customTab tr:nth-child(odd) {
@@ -93,53 +93,48 @@ table.customTab tr:nth-child(odd) {
 		<div class="container">
 
 
-			<h1 th:text="${book.getTitle()}">Book Title</h1>
-			<h3><a href="/">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a href="/subscribers">Subscribers</a></h3>
+			<h1>Edit Subscriber</h1>
+			<h3>
+				<a href="/">Home</a> &nbsp;<a href="/books">Books list</a> &nbsp; <a
+					href="/subscribers">Subscribers</a>
+			</h3>
 
 
 			<table class="customTab">
 				<tr>
 
-					<th>Author</th>
-					<th>Year</th>
+					<th>Full Name</th>
+					<th>Birth date</th>
 					<th>Edit</th>
-					<th>Status</th>
-					<th>Assignment</th>
+	
 				</tr>
 				<tr>
-					<td><span th:text="${book.getAuthor()}">Book Author</span></td>
-					<td><span th:text="${book.getYear()}">Book Year</span></td>
-					<td><a th:href="@{/books/{id}/edit(id=${book.getId()})}">  <input type="button" value="edit" /></a></td>
-					
-					
-					
-					<td
-						th:text="${book.getPersonId()} ? ${subscriber.getFullName()}: 'This book is free'"></td>
-					<td>
+					<td><span th:text="${subscriber.getFullName()}">Full
+							Name</span></td>
+					<td><span th:text="${subscriber.getBirthDate()}">Birth
+							Date</span></td>
+					<td><a
+						th:href="@{/subscribers/{id}/edit(id=${subscriber.getId()})}">
+							<input type="button" value="edit" />
+					</a></td>
 
-						<form th:if="${book.getPersonId()!=null}" th:method="PATCH"
-							th:action="@{/books/{id}/unassign(id=${book.getId()})}"
-							th:object="${book}">
-							<input type="submit" value="Unassign" />
-						</form>
 
-	
 
-						<form th:method="PATCH" th:unless="${book.getPersonId()!=null}" th:action="@{/books/{id}/assign(id=${book.getId()})}">
-							 <select th:object="${person}" th:field="*{id}" id="person">
-
-								<option th:each="person: ${subscribers}" th:value="${person.getId()}"
-									th:text="${person.getFullName()}"></option>
-
-							</select> <input type="submit" value="Assign the book" />
-
-						</form>
-
-					</td>
 				</tr>
 			</table>
+			
+
+				<div th:if="${hiredBooks.size()!=0}">
+				<p>Hired books:</p>
+							<p th:each="hiredBook: ${hiredBooks}"
+								th:text="${hiredBook.getTitle()} + ' '+ ${hiredBook.getAuthor()} + ' '+ ${hiredBook.getYear()}">Book Description</p>
+								
+						</div>
 
 
+						<div th:unless="${hiredBooks.size()!=0}">
+							<p>No Books hired</p>
+						</div>
 
 		</div>
 	</section>

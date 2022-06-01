@@ -2,6 +2,7 @@ package myLibProject.Models;
 
 import java.sql.Date;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -21,8 +22,7 @@ public class Book {
     private String author;
 	
 	
-    @NotEmpty(message = "Year should not be empty")
-    @Pattern(regexp="\\d{4}", message = "Year should respect this format: yyyy-MM-dd")
+	@Min(1) 
     private Integer year;
     
     private Integer personId;
